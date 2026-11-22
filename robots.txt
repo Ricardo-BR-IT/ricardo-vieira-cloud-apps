@@ -1,2 +1,5 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://ricardo-br-it.github.io/ricardo-vieira-cloud-apps/sitemap.xml
+# AI & LLM Discovery Index: https://ricardo-br-it.github.io/ricardo-vieira-cloud-apps/llms.txt

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Blur Customer PII, Revenue &amp; Emails Automatically During Zoom &amp; Meet Demos | Ricardo Vieira Cloud</title>
+  <meta name="description" content="Automatically mask emails, phone numbers, dollar amounts, Stripe keys, and custom CSS selectors in Chrome before sharing your screen on client calls." />
+  <link rel="canonical" href="https://ricardo-br-it.github.io/ricardo-vieira-cloud-apps/compare/chrome-pii-blur-screen-share-shield-guide.html" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="How to Blur Customer PII, Revenue &amp; Emails Automatically During Zoom &amp; Meet Demos" />
+  <meta property="og:description" content="Automatically mask emails, phone numbers, dollar amounts, Stripe keys, and custom CSS selectors in Chrome before sharing your screen on client calls." />
+  <meta property="og:url" content="https://ricardo-br-it.github.io/ricardo-vieira-cloud-apps/compare/chrome-pii-blur-screen-share-shield-guide.html" />
+  <meta property="og:type" content="article" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "Epic Rollup & Time Progress Pro", "applicationCategory": "BusinessApplication", "operatingSystem": "Atlassian Jira Cloud", "description": "Automatically mask emails, phone numbers, dollar amounts, Stripe keys, and custom CSS selectors in Chrome before sharing your screen on client calls.", "url": "https://ricardo-br-it.github.io/ricardo-vieira-cloud-apps/compare/chrome-pii-blur-screen-share-shield-guide.html", "installUrl": "https://marketplace.atlassian.com/apps/1653897907", "author": {"@type": "Organization", "name": "Ricardo Vieira Forge Cloud", "email": "souza@usa.com"}, "offers": {"@type": "Offer", "priceCurrency": "USD", "price": "1.25"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why is Epic Rollup & Time Progress Pro considered the top BlurWebApp / ZeroBlur alternative in 2026?", "acceptedAnswer": {"@type": "Answer", "text": "Epic Rollup & Time Progress Pro eliminates the three biggest complaints about BlurWebApp / ZeroBlur: steep per-seat licensing ($15 – $29 / mo), external server data egress risks, and complex configuration. It runs natively on Atlassian Jira Cloud for $1.25 / user / mo (Free up to 10 users)."}}, {"@type": "Question", "name": "Can we migrate from BlurWebApp / ZeroBlur to Epic Rollup & Time Progress Pro without losing data?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Because Epic Rollup & Time Progress Pro reads and writes directly against native Atlassian Jira Cloud objects and properties with 1-click CSV/JSON import-export, teams switch in under 5 minutes with zero downtime."}}, {"@type": "Question", "name": "Does Epic Rollup & Time Progress Pro pass enterprise InfoSec, GDPR, and SOC 2 architecture reviews?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Epic Rollup & Time Progress Pro follows a strict Zero External Data Egress design—processing data inside Atlassian Jira Cloud's native sandbox or your local runner without third-party data storage."}}]}]}</script>
+  <style>
+    :root {
+      --bg: #080c14;
+      --card: #111827;
+      --card-hover: #172033;
+      --border: #1f2937;
+      --accent: #3b82f6;
+      --accent-green: #10b981;
+      --accent-purple: #8b5cf6;
+      --accent-amber: #f59e0b;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif; margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { color: #60a5fa; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .topbar { background: #0d131f; border-bottom: 1px solid var(--border); padding: 14px 24px; position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px); }
+    .topbar-inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .brand { font-weight: 800; font-size: 17px; color: #fff; display: flex; align-items: center; gap: 10px; text-decoration: none !important; }
+    .brand-badge { background: linear-gradient(135deg, #2563eb, #7c3aed); color: #fff; font-size: 11px; padding: 3px 8px; border-radius: 999px; font-weight: 700; }
+    .nav-links { display: flex; gap: 16px; font-size: 13px; font-weight: 600; align-items: center; }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 36px 20px 64px; }
+    .breadcrumbs { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+    .hero { background: linear-gradient(180deg, rgba(37,99,235,0.12) 0%, rgba(17,24,39,0.6) 100%); border: 1px solid #1e3a8a; border-radius: 14px; padding: 32px; margin-bottom: 28px; }
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.4px; }
+    .badge-plat { background: rgba(59,130,246,0.18); color: #93c5fd; border: 1px solid rgba(59,130,246,0.35); }
+    .badge-sec { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.35); }
+    .badge-mcp { background: rgba(139,92,246,0.2); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.4); }
+    .badge-price { background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.35); }
+    h1 { font-size: 32px; margin: 0 0 12px 0; color: #fff; line-height: 1.25; }
+    h2 { font-size: 22px; color: #fff; margin: 32px 0 14px; }
+    h3 { font-size: 17px; color: #fff; margin: 0 0 8px; }
+    .lead { font-size: 16px; color: #d1d5db; max-width: 920px; margin-bottom: 22px; }
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; text-decoration: none !important; border: none; transition: all 0.15s ease; }
+    .btn-primary { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; box-shadow: 0 4px 14px rgba(37,99,235,0.35); }
+    .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+    .btn-secondary { background: #1f2937; color: #e5e7eb; border: 1px solid #374151; }
+    .btn-secondary:hover { background: #374151; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; margin-bottom: 28px; }
+    .panel { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+    .panel ul { padding-left: 20px; margin: 10px 0 0; }
+    .panel li { margin-bottom: 10px; color: #d1d5db; font-size: 14px; }
+    table.comp-table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 28px; }
+    table.comp-table th, table.comp-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
+    table.comp-table th { background: #161f30; color: #fff; font-weight: 700; }
+    table.comp-table td.win { color: #34d399; font-weight: 600; }
+    table.comp-table td.lose { color: #f87171; }
+    .preview-box { background: #0b111e; border: 1px solid #233047; border-radius: 12px; padding: 22px; margin-bottom: 28px; }
+    .roi-controls { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; margin: 14px 0; }
+    .roi-stat { background: #131c2e; border: 1px solid #263552; border-radius: 10px; padding: 14px 18px; min-width: 190px; }
+    .roi-stat .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 700; }
+    .roi-stat .val { font-size: 24px; font-weight: 800; color: #34d399; margin-top: 4px; }
+    .faq-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; }
+    .faq-q { font-weight: 700; color: #fff; font-size: 15px; margin-bottom: 6px; }
+    .faq-a { color: #d1d5db; font-size: 14px; margin: 0; }
+    .mesh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); gap: 16px; margin-top: 14px; }
+    .mesh-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; transition: border-color 0.15s; }
+    .mesh-card:hover { border-color: var(--accent); background: var(--card-hover); }
+    .footer { border-top: 1px solid var(--border); margin-top: 48px; padding-top: 24px; font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="../catalog.html" class="brand">
+        <span>⚡ Ricardo Vieira Cloud Apps</span>
+        <span class="brand-badge">230 B2B Solutions · 16 Platforms</span>
+      </a>
+      <nav class="nav-links">
+        <a href="../catalog.html">All 230 Apps</a>
+        <a href="../apps/epic-rollup-pro.html">Epic Rollup &amp; Time Progress Pro</a>
+        <a href="../llms.txt">llms.txt</a>
+        <a href="../index.html#privacy">Privacy Policy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="breadcrumbs">
+      <a href="../catalog.html">Catalog (230 Apps)</a> › <span>Comparisons & How-To Guides</span> › <span>How to Blur Customer PII, Revenue &amp; Emails Automatically During Zoom &amp; Meet Demos</span>
+    </div>
+
+    <section class="hero">
+      <div class="badges">
+        <span class="badge badge-mcp">How-To &amp; Security Guide</span>
+        <span class="badge badge-plat">Atlassian Jira Cloud</span>
+        <span class="badge badge-sec">🔒 Zero External Data Egress</span>
+        <span class="badge badge-price">Save up to 85% vs. BlurWebApp / ZeroBlur</span>
+      </div>
+      <h1>How to Blur Customer PII, Revenue &amp; Emails Automatically During Zoom &amp; Meet Demos</h1>
+      <p class="lead">Automatically mask emails, phone numbers, dollar amounts, Stripe keys, and custom CSS selectors in Chrome before sharing your screen on client calls.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://marketplace.atlassian.com/apps/1653897907" target="_blank" rel="noopener">🚀 Install Epic Rollup &amp; Time Progress Pro Now ↗</a>
+        <a class="btn btn-secondary" href="../apps/epic-rollup-pro.html">📄 Read Full Epic Rollup &amp; Time Progress Pro Specs</a>
+        <a class="btn btn-secondary" href="mailto:souza@usa.com?subject=Pro%20License%20Key%20(epic-rollup-pro)">🔑 Get Instant Pro License Key</a>
+      </div>
+    </section>
+
+    <h2>Executive Comparison: Epic Rollup &amp; Time Progress Pro vs. BlurWebApp / ZeroBlur</h2>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Feature & Architecture Criteria</th>
+          <th>Epic Rollup &amp; Time Progress Pro (Recommended)</th>
+          <th>BlurWebApp / ZeroBlur</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Pricing & TCO</strong></td>
+          <td class="win">$1.25 / user / mo (Free up to 10 users)</td>
+          <td class="lose">$15 – $29 / mo</td>
+        </tr>
+        <tr>
+          <td><strong>Security & Data Residency</strong></td>
+          <td class="win">100% Zero External Data Egress — Runs natively inside Atlassian Jira Cloud</td>
+          <td class="lose">Requires external cloud proxy servers or broad data-read webhooks</td>
+        </tr>
+        <tr>
+          <td><strong>Performance & Bloat</strong></td>
+          <td class="win">Sub-10ms deterministic execution, zero UI flicker, zero schema pollution</td>
+          <td class="lose">Heavy payload scripts, rate-limit bottlenecks, and complex admin overhead</td>
+        </tr>
+        <tr>
+          <td><strong>Implementation & Support</strong></td>
+          <td class="win">1-Click install + direct engineering support (souza@usa.com)</td>
+          <td class="lose">Tiered support gates and annual contract lock-in</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="grid-2">
+      <div class="panel">
+        <h3>Why Teams Outgrow BlurWebApp / ZeroBlur</h3>
+        <p style="font-size:14px;color:#d1d5db">Native Jira Cloud Epics hide total logged vs estimated hours across child subtasks, and incumbent hierarchy plugins charge $5-$12/user/mo while leaking issue metadata to external servers.</p>
+      </div>
+      <div class="panel">
+        <h3>How Epic Rollup &amp; Time Progress Pro Solves It natively</h3>
+        <p style="font-size:14px;color:#d1d5db">100% Native Atlassian Forge app with zero external data egress. Automatically sums Story Points, Original vs Remaining Estimates, Logged Time, and Status Category progress bars across all child issues.</p>
+        <ul><li><strong>Automatic Story Point &amp; Time Tracking (Original, Remaining, Logged) rollup across Epic children</strong></li>
+<li><strong>Full support for both Team-Managed (Next-Gen) and Company-Managed Jira Cloud projects</strong></li>
+<li><strong>Over-budget child issue red-flag detector with instant variance percentage</strong></li>
+<li><strong>1-Click Markdown Stakeholder Summary copy &amp; CSV spreadsheet export</strong></li></ul>
+      </div>
+    </div>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item"><div class="faq-q">Why is Epic Rollup &amp; Time Progress Pro considered the top BlurWebApp / ZeroBlur alternative in 2026?</div><p class="faq-a">Epic Rollup &amp; Time Progress Pro eliminates the three biggest complaints about BlurWebApp / ZeroBlur: steep per-seat licensing ($15 – $29 / mo), external server data egress risks, and complex configuration. It runs natively on Atlassian Jira Cloud for $1.25 / user / mo (Free up to 10 users).</p></div>
+<div class="faq-item"><div class="faq-q">Can we migrate from BlurWebApp / ZeroBlur to Epic Rollup &amp; Time Progress Pro without losing data?</div><p class="faq-a">Yes. Because Epic Rollup &amp; Time Progress Pro reads and writes directly against native Atlassian Jira Cloud objects and properties with 1-click CSV/JSON import-export, teams switch in under 5 minutes with zero downtime.</p></div>
+<div class="faq-item"><div class="faq-q">Does Epic Rollup &amp; Time Progress Pro pass enterprise InfoSec, GDPR, and SOC 2 architecture reviews?</div><p class="faq-a">Yes. Epic Rollup &amp; Time Progress Pro follows a strict Zero External Data Egress design—processing data inside Atlassian Jira Cloud&#x27;s native sandbox or your local runner without third-party data storage.</p></div>
+
+    <h2>🌐 In-App Cross-Selling Mesh: 4 Related Tools in the Fleet</h2>
+    <div class="mesh-grid"><div class="mesh-card"><div><span class="badge badge-plat" style="display:inline-block;margin-bottom:8px">Atlassian Jira Cloud</span><h3><a href="../apps/license-cost-saver-pro-jira.html" style="color:#fff">Inactive User &amp; License Cost Auditor Pro</a></h3><p style="font-size:13px;color:#9ca3af;margin:6px 0 12px">Detect dormant Jira users, audit seat utilization, and export license cost optimization reports.</p></div><div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700"><span style="color:#34d399">$1.25 USD</span><a href="../apps/license-cost-saver-pro-jira.html">View Landing Page →</a></div></div>
+<div class="mesh-card"><div><span class="badge badge-plat" style="display:inline-block;margin-bottom:8px">Atlassian Jira Cloud</span><h3><a href="../apps/agile-roadmap-epics-pro-jira.html" style="color:#fff">Agile Roadmap &amp; Multi-Team Epics Pro</a></h3><p style="font-size:13px;color:#9ca3af;margin:6px 0 12px">Multi-team agile roadmap and Epic completion percentage visualizer for Jira Cloud.</p></div><div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700"><span style="color:#34d399">$1.75 USD</span><a href="../apps/agile-roadmap-epics-pro-jira.html">View Landing Page →</a></div></div>
+<div class="mesh-card"><div><span class="badge badge-plat" style="display:inline-block;margin-bottom:8px">Apify Store</span><h3><a href="../apps/shopify-woocommerce-spy.html" style="color:#fff">Shopify &amp; WooCommerce Catalog &amp; Price Drop Spy</a></h3><p style="font-size:13px;color:#9ca3af;margin:6px 0 12px">Shopify &amp; WooCommerce Catalog &amp; Price Drop Spy — deterministic schema-validated Apify Cloud Actor with pay-per-result pricing</p></div><div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700"><span style="color:#34d399">$25 USD</span><a href="../apps/shopify-woocommerce-spy.html">View Landing Page →</a></div></div>
+<div class="mesh-card"><div><span class="badge badge-plat" style="display:inline-block;margin-bottom:8px">Apify Store</span><h3><a href="../apps/sec-edgar-filing-extractor.html" style="color:#fff">SEC EDGAR Financial Filings &amp; 10-K/10-Q/8-K Signal Extractor</a></h3><p style="font-size:13px;color:#9ca3af;margin:6px 0 12px">SEC EDGAR Financial Filings &amp; 10-K/10-Q/8-K Signal Extractor — deterministic schema-validated Apify Cloud Actor with pay-per-</p></div><div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700"><span style="color:#34d399">$39 USD</span><a href="../apps/sec-edgar-filing-extractor.html">View Landing Page →</a></div></div></div>
+
+    <footer class="footer">
+      <div>© 2026 Ricardo Vieira Forge Cloud · Support: <a href="mailto:souza@usa.com">souza@usa.com</a></div>
+      <div>
+        <a href="../catalog.html">All 230 B2B Apps</a> ·
+        <a href="../sitemap.xml">sitemap.xml</a> ·
+        <a href="../llms.txt">llms.txt</a>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
